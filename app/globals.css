@@ -1,0 +1,186 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@theme inline {
+  --font-sans: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-terminal), ui-monospace, monospace;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-panel: var(--panel);
+  --color-steel: var(--steel);
+
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+}
+
+:root {
+  color-scheme: dark;
+
+  /* 1 accent (neon blue) + neutrals */
+  --background: oklch(0.17 0.008 240);
+  --foreground: oklch(0.93 0.008 230);
+  --panel: oklch(0.225 0.011 240);
+  --steel: oklch(0.315 0.013 240);
+
+  --card: oklch(0.225 0.011 240);
+  --card-foreground: oklch(0.93 0.008 230);
+  --popover: oklch(0.225 0.011 240);
+  --popover-foreground: oklch(0.93 0.008 230);
+
+  --primary: #7983D7;
+  --primary-foreground: oklch(0.17 0.02 240);
+
+  --secondary: oklch(0.28 0.012 240);
+  --secondary-foreground: oklch(0.93 0.008 230);
+
+  --muted: oklch(0.26 0.012 240);
+  --muted-foreground: oklch(0.68 0.015 235);
+
+  --accent: oklch(0.78 0.152 218);
+  --accent-foreground: oklch(0.17 0.02 240);
+
+  --destructive: oklch(0.7 0.17 35);
+  --border: oklch(0.35 0.015 240);
+  --input: oklch(0.32 0.014 240);
+  --ring: oklch(0.78 0.152 218);
+  --radius: 0px;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+  ::selection {
+    background: var(--primary);
+    color: var(--primary-foreground);
+  }
+}
+
+@layer utilities {
+  /* Angled cut-out corners for industrial panels */
+  .clip-hud {
+    clip-path: polygon(
+      14px 0,
+      100% 0,
+      100% calc(100% - 14px),
+      calc(100% - 14px) 100%,
+      0 100%,
+      0 14px
+    );
+  }
+  .clip-hud-sm {
+    clip-path: polygon(
+      8px 0,
+      100% 0,
+      100% calc(100% - 8px),
+      calc(100% - 8px) 100%,
+      0 100%,
+      0 8px
+    );
+  }
+  .clip-notch {
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+  }
+
+  /* Brushed metal panel surface */
+  .brushed {
+    background-image: repeating-linear-gradient(
+        90deg,
+        oklch(1 0 0 / 0.014) 0px,
+        oklch(1 0 0 / 0.014) 1px,
+        transparent 1px,
+        transparent 3px
+      ),
+      linear-gradient(
+        160deg,
+        oklch(0.28 0.013 240) 0%,
+        oklch(0.215 0.01 240) 55%,
+        oklch(0.19 0.009 240) 100%
+      );
+  }
+
+  .grid-plate {
+    background-image: linear-gradient(
+        to right,
+        oklch(0.78 0.152 218 / 0.05) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        to bottom,
+        oklch(0.78 0.152 218 / 0.05) 1px,
+        transparent 1px
+      );
+    background-size: 48px 48px;
+  }
+
+  .text-glow {
+    text-shadow: 0 0 14px oklch(0.78 0.152 218 / 0.5);
+  }
+
+  .flicker {
+    animation: hud-flicker 6s steps(1, end) infinite;
+  }
+
+  .sweep {
+    animation: hud-sweep 5s linear infinite;
+  }
+}
+
+@keyframes hud-flicker {
+  0%,
+  92%,
+  100% {
+    opacity: 1;
+  }
+  93% {
+    opacity: 0.55;
+  }
+  94% {
+    opacity: 1;
+  }
+  95% {
+    opacity: 0.35;
+  }
+  96% {
+    opacity: 1;
+  }
+}
+
+@keyframes hud-sweep {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(900%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flicker,
+  .sweep {
+    animation: none;
+  }
+}
